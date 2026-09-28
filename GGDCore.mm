@@ -82,17 +82,31 @@ Il2CppClass* GGDIl2Cpp::findClass(const char* name, const char* ns) {
 
     size_t count = 0;
     auto list = domain_get_assemblies(domain_get(), &count);
-    const char* namespaces[] = { ns, "", "Goose", "Goose.Ctls", nullptr };
+    const char* namespaces[] = {
+    "",
+    "Goose",
+    "Goose.Ctls",
+    "Assembly-CSharp",
+    nullptr
+};
 
-    for (size_t i = 0; i < count; ++i) {
-        const Il2CppImage* img = assembly_get_image(list[i]);
-        if (!img) continue;
+for (size_t i = 0; i < count; ++i) {
+    const Il2CppImage* img = assembly_get_image(list[i]);
+    if (!img) continue;
 
-        for (int n = 0; namespaces[n]; ++n) {
-            if (ns && n == 1) continue;
-            if (auto c = class_from_name(img, namespaces[n], name)) return c;
-        }
+    // 如果调用者明确指定 namespace，先精确查找。
+    if (ns && *ns) {
+        if (auto c = class_from_name(img, ns, name))
+            return c;
+        continue;
     }
+    // 未指定 namespace 时，依次搜索常见 namespace。
+    for (int n = 0; namespaces[n]; ++n) {
+        if (auto c = class_from_name(img, namespaces[n], name))
+            return c;
+    }
+}
+
     return nullptr;
 }
 
