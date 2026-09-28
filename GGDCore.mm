@@ -218,10 +218,7 @@ static Il2CppObject* readObjectField(GGDIl2Cpp& api, Il2CppObject* obj, Il2CppCl
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0), ^{
         for (int i=0;i<100;i++) {
-            bool ok=false;
-            for (int p=0;kUnityPaths[p];++p) {
-                if (_api.resolve(kUnityPaths[p])) { ok=true; break; }
-            }
+            bool ok = _api.resolve(nullptr);
             if (ok && _api.attach()) break;
             usleep(200000);
         }
