@@ -1,0 +1,56 @@
+{
+  "version": "1.1.13",
+  "teams": {
+    "duck": {
+      "color": "#E53935",
+      "label": "鸭子"
+    },
+    "goose": {
+      "color": "#1E88E5",
+      "label": "鹅"
+    },
+    "neutral": {
+      "color": "#8E44AD",
+      "label": "中立"
+    },
+    "special": {
+      "color": "#FB8C00",
+      "label": "特殊"
+    }
+  },
+  "role_candidates": [
+    "RoleId",
+    "roleId",
+    "Role",
+    "role",
+    "CurrentRole",
+    "currentRole",
+    "RoleType",
+    "roleType",
+    "RoleName",
+    "roleName",
+    "role_name"
+  ],
+  "name_candidates": [
+    "Name",
+    "name",
+    "PlayerName",
+    "playerName",
+    "Nickname",
+    "nickname",
+    "NickName",
+    "nickName",
+    "uid",
+    "Uid",
+    "UID"
+  ],
+  "position_candidates": [
+    "Position",
+    "position",
+    "m_position",
+    "WorldPosition",
+    "worldPosition",
+    "transform",
+    "Transform"
+  ]
+}
