@@ -43,7 +43,7 @@ jobs:
             -framework UIKit \
             -framework QuartzCore \
             -framework Metal \
-            Tweak.xm GGDCore.mm GGDOverlay.mm \
+            Tweak.mm GGDCore.mm GGDOverlay.mm \
             -o "$OUT/GGDIdentityOverlay.dylib"
 
           file "$OUT/GGDIdentityOverlay.dylib"
