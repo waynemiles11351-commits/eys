@@ -52,6 +52,16 @@
     return self;
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hit = [super hitTest:point withEvent:event];
+
+    if (hit == self) {
+        return nil;
+    }
+
+    return hit;
+}
+
 - (void)dealloc { [_link invalidate]; }
 
 - (void)togglePanel { _panel.hidden=!_panel.hidden; }
