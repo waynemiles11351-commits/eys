@@ -62,7 +62,7 @@
     r.origin.x += p.x; r.origin.y += p.y;
     _toggle.frame=r;
     _panel.frame=CGRectMake(r.origin.x,r.origin.y+r.size.height+8,_panel.frame.size.width,_panel.frame.size.height);
-    [g setTranslation:CGPointZero inView:self];
+    [g setTranslation:CGPointMake(0, 0) inView:self];
 }
 
 - (void)refresh {
