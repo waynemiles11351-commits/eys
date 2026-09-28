@@ -1,22 +1,33 @@
 #import "GGDCore.hpp"
 #import <Foundation/Foundation.h>
 #import <dlfcn.h>
+#import <mach-o/dyld.h>
 #include <unistd.h>
 #include <string.h>
-
-static const char* kUnityPaths[] = {
-    "/Frameworks/UnityFramework.framework/UnityFramework",
-    "UnityFramework",
-    nullptr
-};
 
 static void* resolveAny(void* h, const char* a) {
     return h ? dlsym(h, a) : nullptr;
 }
 
 bool GGDIl2Cpp::resolve(const char* imagePath) {
-    handle = dlopen(imagePath, RTLD_LAZY | RTLD_NOLOAD);
-    if (!handle) handle = dlopen(imagePath, RTLD_LAZY);
+    handle = nullptr;
+    // 优先从当前进程已经加载的 Mach-O 中寻找 UnityFramework。
+    uint32_t imageCount = _dyld_image_count();
+    for (uint32_t i = 0; i < imageCount; ++i) {
+        const char* imageName = _dyld_get_image_name(i);
+        if (!imageName) continue;
+        if (strstr(imageName, "UnityFramework.framework/UnityFramework") ||
+            strstr(imageName, "/UnityFramework")) {
+            handle = dlopen(imageName, RTLD_LAZY | RTLD_NOLOAD);
+            if (handle) break;
+        }
+    }
+
+    // 兜底尝试。
+    if (!handle && imagePath) {
+        handle = dlopen(imagePath, RTLD_LAZY | RTLD_NOLOAD);
+    }
+
     if (!handle) return false;
 
 #define R(member, symbol) member = (decltype(member))resolveAny(handle, symbol)
